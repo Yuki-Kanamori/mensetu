@@ -1,0 +1,55 @@
+---
+title: "Data summary"
+author: "Y Kanamori"
+date: "2019/10/24"
+output: word_document
+vignette: >
+  %\VignetteIndexEntry{report}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setupm, include = F}
+library(mensetu)
+require(tidyverse)
+require(plyr)
+```
+
+# どんなデータが入っている？
+```{r data show, include = F}
+data = data %>% select(Y,M,Lon,Lat,CPUE,FISH,GEAR) %>% dplyr::rename(Year = Y, Month = M)
+```
+
+```{r data show2}
+colnames(data)
+```
+
+# 統計量は？
+```{r data show3}
+summary(data)
+```
+# 魚種ごとのCPUEのトレンドは？
+```{r data show3_2, include=F}
+data2 = ddply(data, .(Year, FISH), summarize, m_CPUE = mean(CPUE))
+```
+
+```{r data show4, fig.height = 5, fig.width = 10}
+cpue(data2)
+```
+<style type="text/css">
+
+h1.title {
+  font-size: 50px;
+  color: DarkRed;
+}
+h1 { /* Header 1 */
+  font-size: 28px;
+}
+</style>
